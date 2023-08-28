@@ -5,10 +5,10 @@ module.exports = (err, req, res, next) => {
     err.message = err.message || "Internal Server Error";
     
     //mongoDB id error
-    if(err.name = "CastError"){
-        const message = `Resource Not Found. Invalid err ${err.name}`
+    if (err.name === "CastError") {
+        const message = `Resource Not Found. Invalid err ${err.name}`;
         err = new ErrorHandler(message, 400);
-    }
+    }    
 
     res.status(err.statusCode).json({
         success: false,
