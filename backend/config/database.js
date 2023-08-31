@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+//family 4 is ip address
 const connectDatabase = () => {
     mongoose.connect(process.env.DB_URI, {family:4})
     .then((data)=>{

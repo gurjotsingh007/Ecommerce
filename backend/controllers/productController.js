@@ -5,6 +5,7 @@ const ApiFeatures = require("../utils/apiFeatures");
 
 //Creating Product -- Admin
 exports.createProduct = catchAsyncErrors(async(req, res, next) => {
+    req.body.user = req.user.id;
     const product = await Product.create(req.body);
 
     res.status(201).json({
@@ -13,6 +14,9 @@ exports.createProduct = catchAsyncErrors(async(req, res, next) => {
     })
 });
 //Get products
+// new ApiFeatures(Product.find(), req.query) creates a new instance of the ApiFeatures class. 
+// The ApiFeatures class is a class that is used to paginate, filter, and search for products. 
+// The Product.find() method and the req.query object are passed as arguments to the constructor of the ApiFeatures class.
 exports.getAllProducts = catchAsyncErrors(async(req, res, next) => {
     const resultPerPage = 2;
     const productCount = await Product.countDocuments();
@@ -35,6 +39,10 @@ exports.getAllProducts = catchAsyncErrors(async(req, res, next) => {
 });
 
 //Update product
+// The findByIdAndUpdate() method is used to update a product by its ID.
+// The first argument to the findByIdAndUpdate() method is the ID of the product that should be updated.
+// The second argument is the data that should be used to update the product.
+// The third argument is an object that specifies the options for the update.
 exports.updateProduct = catchAsyncErrors(async(req, res, next) => {
     let product = await Product.findById(req.params.id);
 
