@@ -1,0 +1,10 @@
+.nav-image{
+    height: 4rem;
+}
+.nav-link{
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+}
+.nav-link:Hover{
+    color: rgba(255, 61, 61, 0.94);
+}

@@ -18,7 +18,7 @@ exports.createProduct = catchAsyncErrors(async(req, res, next) => {
 // The ApiFeatures class is a class that is used to paginate, filter, and search for products. 
 // The Product.find() method and the req.query object are passed as arguments to the constructor of the ApiFeatures class.
 exports.getAllProducts = catchAsyncErrors(async(req, res, next) => {
-    const resultPerPage = 2;
+    const resultPerPage = 8;
     const productCount = await Product.countDocuments();
 
     const apiFeature = new ApiFeatures(Product.find(), req.query)
