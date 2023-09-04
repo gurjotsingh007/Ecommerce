@@ -1,48 +1,21 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { getProducts , getSingleProduct} from './productAction';
-
+import { getProducts, getSingleProduct } from './productAction';
 const productSlice = createSlice({
     name:"products",
     initialState:{
         loading:false,
         products:[],
         loadingSingle:false,
-        singleProduct:null,
+        singleProduct:[],
         error:null
     },
     reducers:{
-        allProductRequest: (state) => {
-            state.loading = true;
-            state.products = [];
-        },
-        allProductSuccess: (state, action) => {
-            state.loading = false;
-            state.products = action.payload.products;
-            state.productsCount = action.payload.productsCount;
-        },
-        allProductFail:(state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        },
-        clearErrors:(state)=>{
-            state.error = null;
-        },
-        singleProductRequest:(state)=>{
-            state.loadingSingle = true;
-            state.singleProduct = null;
-        },
-        singleProductSuccess:(state, action) => {
-            state.loadingSingle = false;
-            state.singleProduct = action.payload.product;
-        },
-        singleProductFail:(state, action) => {
-            state.loadingSingle = false;
-            state.error = action.payload;
-        }
+
     },
     extraReducers:{
-        [getProducts.pending]:(state) => {
+        [getProducts.pending]:(state, action) => {
             state.loading = true;
+            state.products = [];
         },
         [getProducts.fulfilled]:(state, action) => {
             state.loading = false;
@@ -66,15 +39,15 @@ const productSlice = createSlice({
     }
 });
 
-export const {
-    allProductRequest,
-    allProductSuccess,
-    allProductFail,
-    clearErrors,
-    singleProductRequest,
-    singleProductSuccess,
-    singleProductFail
+// export const {
+//     allProductRequest,
+//     allProductSuccess,
+//     allProductFail,
+//     clearErrors,
+//     singleProductRequest,
+//     singleProductSuccess,
+//     singleProductFail
 
-} = productSlice.actions;
+// } = productSlice.actions;
 
 export default productSlice.reducer;

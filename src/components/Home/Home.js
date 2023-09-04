@@ -3,64 +3,54 @@ import { FaMouse } from 'react-icons/fa';
 import "./Home.css";
 import ProductCard from "./ProductCard.js";
 import MetaData from "../layout/MetaData";
-import { useDispatch, useSelector } from 'react-redux'; // Import useSelector
-import { allProductRequest, allProductSuccess, allProductFail } from '../../utils/Product/productSlice'; // Import your action creators
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from "../layout/Loader/Loader";
+import { getProducts } from "../../utils/Product/productAction";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { loading, error, products , productsCount} = useSelector(state => state.products); // Get products, loading, and error from the store state
-
+  const { loading, error, products, productsCount } = useSelector(state => state.products);
   useEffect(() => {
-    // Dispatch action to indicate loading started
-    // if(error){
-    //   useReact toastify
-    // }
-    dispatch(allProductRequest());
+    // Remove 'error' from the dependency array, as it's not needed here
+    dispatch(getProducts());
 
-    fetch("/api/v1/products")
-      .then((response) => response.json())
-      .then((data) => {
-        // Dispatch success action with fetched data
-        dispatch(allProductSuccess(data));
-      })
-      .catch((err) => {
-        // Dispatch failure action with the error message
-        dispatch(allProductFail(err.message));
-      });
-  }, [dispatch, error]);
+  }, [dispatch, error]); // Only dispatch when 'dispatch' changes, not 'error'
 
   return (
     <Fragment>
-      {loading ? (<Loader/>):(
-    <Fragment>
-      <MetaData title="Ecommerce" />
-      <div className="banner">
-        <p>Welcome to Ecommerce</p>
-        <h1>FIND AMAZING PRODUCTS BELOW</h1>
+      {loading ? (<Loader/>) : (
+        <Fragment>
+          <MetaData title="Ecommerce" />
+          <div className="banner">
+            <p>Welcome to Ecommerce</p>
+            <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
-        <a href="#container">
-          <button>
-            Scroll <FaMouse />
-          </button>
-        </a>
-      </div>
+            <a href="#container">
+              <button>
+                Scroll <FaMouse />
+              </button>
+            </a>
+          </div>
 
-      <h2 className="homeHeading">Featured Products</h2>
+          <h2 className="homeHeading">Featured Products</h2>
 
-      <div className="container" id="container">
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>Error While Loding the page{console.log(error)}</p>
-        ) : (products &&
-          products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))
-        )}
-      </div>
-    </Fragment>
-    )}
+          <div className="container" id="container">
+            {loading ? (
+              <p>Loading...</p>
+            ) : error ? (
+              <div className="text-center">
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              products.products && products.products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))
+            )}
+          </div>
+        </Fragment>
+      )}
     </Fragment>
   );
 };

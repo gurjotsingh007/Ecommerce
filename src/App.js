@@ -22,7 +22,7 @@ function App() {
       <Router>
         <Routes> {/* Use Routes as the top-level routing container */}
           <Route path="/" element={<Home />} /> {/* Use 'element' to specify the component */}
-          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/product" element={<ProductDetails />} />
         </Routes>
       </Router>
       <Footer />
