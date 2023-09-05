@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const getProducts = createAsyncThunk("products/getProducts", async (_, { rejectWithValue }) => {
+export const getProducts = createAsyncThunk("products/getProducts", async (keyword="", { rejectWithValue }) => {
   try {
-    const response = await fetch("/api/v1/products");
+    const link = `/api/v1/products?keyword=${keyword}`
+    const response = await fetch(link);
     const result = await response.json();
     return result;
   } catch (error) {

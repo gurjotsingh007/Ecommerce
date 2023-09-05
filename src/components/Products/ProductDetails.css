@@ -286,13 +286,15 @@
   .css-ohwg9z{
     overflow: visible !important;
   }
-  .css-ohwg9z{
-    max-width: 20vmax !important;
-  }
-  .css-1abc02a{
-    right: -7.1rem !important
-    ;
-  }
-  .css-1m9128y{
-    margin-left: 4rem;
+  @media screen and (min-width: 750px)  {
+    .css-ohwg9z{
+      max-width: 20vmax !important;
+    }
+    .css-1abc02a{
+      right: -7.1rem !important
+      ;
+    }
+    .css-1m9128y{
+      margin-left: 4rem;
+    }
   }

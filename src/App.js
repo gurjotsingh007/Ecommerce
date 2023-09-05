@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home/Home.js';
 import Footer from './components/layout/Footer/Footer.js';
 import ProductDetails from './components/Products/ProductDetails';
+import Products from './components/Products/Products';
+import Search from './components/Products/Search';
 
 function App() {
   useEffect(() => {
@@ -17,16 +19,19 @@ function App() {
   }, []);
 
   return (
-    <>
-      <Header />
-      <Router>
-        <Routes> {/* Use Routes as the top-level routing container */}
-          <Route path="/" element={<Home />} /> {/* Use 'element' to specify the component */}
-          <Route path="/product" element={<ProductDetails />} />
+    <Router>
+      <>
+        <Header />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/product" element={<ProductDetails />} />
+          <Route exact path="/products" element={<Products />} />
+          <Route path="/products/:keyword" element={<Products />} />
+          <Route exact path="/search" element={<Search />} />
         </Routes>
-      </Router>
-      <Footer />
-    </>
+        <Footer />
+      </>
+    </Router>
   );
 }
 
