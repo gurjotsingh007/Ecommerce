@@ -27,6 +27,11 @@ exports.getAllProducts = catchAsyncErrors(async(req, res, next) => {
     .pagination(resultPerPage);
     const products = await apiFeature.query;
     
+    const apiFeatur = new ApiFeatures(Product.find(), req.query)
+    .search()
+    .filter()
+    const product = await apiFeatur.query;
+    let filteredProductsCount = product.length;
     // if(!products){
     //     return next(new ErrorHandler("Product Not Found", 404));
     // }
@@ -34,7 +39,9 @@ exports.getAllProducts = catchAsyncErrors(async(req, res, next) => {
     res.status(200).json({
         success: true,
         products,
-        productCount
+        productCount,
+        resultPerPage,
+        filteredProductsCount
     });
 });
 

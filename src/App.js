@@ -8,6 +8,7 @@ import Footer from './components/layout/Footer/Footer.js';
 import ProductDetails from './components/Products/ProductDetails';
 import Products from './components/Products/Products';
 import Search from './components/Products/Search';
+import Login from './components/User/Login';
 
 function App() {
   useEffect(() => {
@@ -23,11 +24,12 @@ function App() {
       <>
         <Header />
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/product" element={<ProductDetails />} />
-          <Route exact path="/products" element={<Products />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/product" element={<ProductDetails />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/products/:keyword" element={<Products />} />
-          <Route exact path="/search" element={<Search />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
         <Footer />
       </>

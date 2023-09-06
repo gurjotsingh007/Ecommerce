@@ -3,7 +3,7 @@ import React from 'react';
 import logo from '../../../images/logo.png';
 import './Header.css';
 import { Link } from 'react-router-dom';
-
+import userProfile from '../../../images/Profile.png'
 const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -34,6 +34,10 @@ const Header = () => {
               Search
             </button>
           </Link>
+          <Link className="nav-link" to="/login" exact>
+            <img className='userProfile' src={userProfile} alt='userProfile'/>
+          </Link>
+          
         </div>
       </div>
     </nav>

@@ -9,6 +9,7 @@ import Pagination from "react-js-pagination";
 import ProductCard from "../Home/ProductCard";
 import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData"
+import { changePrice, changeCurrPage, setProductCategory, setProductRating } from '../../utils/UpdatingValues/updatingSlice';
 
 const categories = [
   "Laptop",
@@ -18,6 +19,7 @@ const categories = [
   "Attire",
   "Camera",
   "SmartPhones",
+  "Wheeler"
 ];
 
 const Products = () => {
@@ -28,20 +30,37 @@ const Products = () => {
   const [ratings, setRatings] = useState(0);
 
 
-  const {products, productsCount, loading, error, resultPerPage, filteredProductsCount} = useSelector(state => state.products);
+  const {products, loading, error} = useSelector(state => state.products);
+  const {productCount, resultPerPage, filteredProductsCount} = products;
+
   let { keyword } = useParams();
   const setCurrentPageNo = (e) => {
     setCurrentPage(e);
+    dispatch(changeCurrPage(e));
   };
+
+  const settingCategory = (event, type) => {
+    setCategory(type);
+    dispatch(setProductCategory(type));
+  }
+
+  const settingRating = (event, rate) => {
+    setRatings(rate);
+    dispatch(setProductRating(rate));
+  }
 
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
+    dispatch(changePrice(newPrice));
   };
 
   let count = filteredProductsCount;
   useEffect(()=>{
+    if(error){
+      alert("Error Occured");
+    }
     dispatch(getProducts(keyword));
-  }, [dispatch, keyword])
+  }, [dispatch, keyword, price, currentPage, category, ratings])
   return (
     <Fragment>
       {loading ? (
@@ -75,33 +94,30 @@ const Products = () => {
                 <li
                   className="category-link"
                   key={category}
-                  onClick={() => setCategory(category)}
+                  onClick={(e) => settingCategory(e,category)}
                 >
                   {category}
                 </li>
               ))}
             </ul>
 
-            <fieldset>
               <Typography component="legend">Ratings Above</Typography>
+              
               <Slider
                 value={ratings}
-                onChange={(e, newRating) => {
-                  setRatings(newRating);
-                }}
+                onChange={(e, newRating) => settingRating(e, newRating)}
                 aria-labelledby="continuous-slider"
                 valueLabelDisplay="auto"
                 min={0}
                 max={5}
               />
-            </fieldset>
           </div>
           {resultPerPage < count && (
             <div className="paginationBox">
               <Pagination
                 activePage={currentPage}
                 itemsCountPerPage={resultPerPage}
-                totalItemsCount={productsCount}
+                totalItemsCount={productCount}
                 onChange={setCurrentPageNo}
                 nextPageText="Next"
                 prevPageText="Prev"

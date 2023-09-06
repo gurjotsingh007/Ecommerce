@@ -1,18 +1,24 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const getProducts = createAsyncThunk("products/getProducts", async (keyword="", { rejectWithValue }) => {
+export const getProducts = createAsyncThunk('getProducts', async (keyword = '', thunkAPI) => {
   try {
-    const link = `/api/v1/products?keyword=${keyword}`
+    const { getState } = thunkAPI;
+    const { price, currentPage, category , rating} = getState().updating;
+
+    let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${rating}`;
+    if(category){
+      link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${rating}`;
+    }
+    console.log(link);
     const response = await fetch(link);
     const result = await response.json();
     return result;
   } catch (error) {
-    return rejectWithValue(error.message);
+    return error.message;
   }
 });
 export const getSingleProduct = createAsyncThunk("getSingleProduct", async (id, { rejectWithValue }) => {
     try {
-      console.log("this is id in action "+id);
       const response = await fetch(`/api/v1/product/${id}`);
       const result = await response.json();
       return result;

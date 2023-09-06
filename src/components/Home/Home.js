@@ -9,7 +9,7 @@ import { getProducts } from "../../utils/Product/productAction";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { loading, error, products, productsCount } = useSelector(state => state.products);
+  const { loading, error, products } = useSelector(state => state.products);
   useEffect(() => {
     // Remove 'error' from the dependency array, as it's not needed here
     dispatch(getProducts());
