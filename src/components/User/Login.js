@@ -1,19 +1,19 @@
 import './Login.css'
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import Loader from "../layout/Loader/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from '../../utils/Users/usersAction';
+import { login , register} from '../../utils/Users/usersAction';
 import logo from '../../images/Profile.png'
-
+import axios from 'axios';
 const Login = () => {
     const dispatch = useDispatch();
-
-    const {error,loading, isAuthenticated } = useSelector((state) => state);
-
+    const navigate = useNavigate();
+    const {error,loading, isAuthenticated } = useSelector((state) => state.users);
+  console.log(error,loading, isAuthenticated );
   const loginTab = useRef(null);
   const registerTab = useRef(null);
   const switcherTab = useRef(null);
@@ -34,22 +34,23 @@ const Login = () => {
 
   const loginSubmit = (e) => {
     e.preventDefault();
-    
-    dispatch(login(loginEmail, loginPassword));
+    dispatch(login({ email: loginEmail, password: loginPassword }));
   };
 
-  const registerSubmit = (e) => {
+  const registerSubmit = async (e) => {
     e.preventDefault();
-
-    const myForm = new FormData();
-
-    myForm.set("name", name);
-    myForm.set("email", email);
-    myForm.set("password", password);
-    myForm.set("avatar", avatar);
-    // dispatch(register(myForm));
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("avatar", avatar);
+  
+      // Create an object with the data you want to send
+      dispatch(register(formData))
+      
   };
-
+  
+  
   const registerDataChange = (e) => {
     if (e.target.name === "avatar") {
       const reader = new FileReader();
@@ -74,10 +75,11 @@ const Login = () => {
       alert(error);
     }
 
-    // if (isAuthenticated) {
-    //   history.push(redirect);
-    // }
-  }, [error]);
+    if (isAuthenticated) {
+      alert("LOGIN");
+      // navigate(' /account')
+    }
+  }, [error, isAuthenticated, loading, navigate]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {

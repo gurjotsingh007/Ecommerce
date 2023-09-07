@@ -4,7 +4,10 @@ import logo from '../../../images/logo.png';
 import './Header.css';
 import { Link } from 'react-router-dom';
 import userProfile from '../../../images/Profile.png'
+import UserOption from './UserOption';
+import { useSelector } from 'react-redux';
 const Header = () => {
+  const {user, isAuthenticated} = useSelector(state => state.users)
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -37,7 +40,9 @@ const Header = () => {
           <Link className="nav-link" to="/login" exact>
             <img className='userProfile' src={userProfile} alt='userProfile'/>
           </Link>
-          
+          <span className="nav-link">
+          {isAuthenticated && <UserOption user={user}/>}
+          </span>
         </div>
       </div>
     </nav>

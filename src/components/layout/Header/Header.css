@@ -11,3 +11,17 @@
 .userProfile{
     height: 3rem;
 }
+.speedDial {
+    position: fixed;
+    right: 3vmax;
+    top: 3vmax;
+  }
+  
+  .speedDialIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: 100%;
+  }
+  /* .displayProfile{
+    margin-bottom: 0;
+  } */
