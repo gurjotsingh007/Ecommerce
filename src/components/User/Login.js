@@ -77,7 +77,7 @@ const Login = () => {
 
     if (isAuthenticated) {
       alert("LOGIN");
-      // navigate(' /account')
+      navigate('/account')
     }
   }, [error, isAuthenticated, loading, navigate]);
 

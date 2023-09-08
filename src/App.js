@@ -11,6 +11,9 @@ import Search from './components/Products/Search';
 import Login from './components/User/Login';
 import store from './utils/store'
 import { loadUser } from './utils/Users/usersAction';
+import Profile from './components/User/Profile.js'
+import ProtectedRoute from './components/Route/ProtectedRoute';
+
 function App() {
   useEffect(() => {
     WebFont.load({
@@ -32,6 +35,11 @@ function App() {
           <Route path="/products/:keyword" element={<Products />} />
           <Route path="/search" element={<Search />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/account" element={
+              <ProtectedRoute>
+              <Profile/>
+              </ProtectedRoute>
+          }/>
         </Routes>
         <Footer />
       </>
