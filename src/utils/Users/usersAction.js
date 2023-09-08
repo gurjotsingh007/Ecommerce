@@ -36,6 +36,7 @@ export const register = createAsyncThunk('register', async (formData) => {
   
       const url = '/api/v1/register';
       const response = await axios.post(url, JSON.stringify(dataToSend), config);
+      
       return response;
   } catch (error) {
       throw error;
@@ -56,7 +57,7 @@ export const loadUser = createAsyncThunk('loadUser', async (_, { rejectWithValue
     }
 });
 
-export const logout = createAsyncThunk('logout', async (_, { rejectWithValue }) => {
+export const logout = createAsyncThunk('logout', async () => {
     try {
         let response = await fetch('/api/v1/logout');
         if (!response.ok) {
@@ -66,9 +67,30 @@ export const logout = createAsyncThunk('logout', async (_, { rejectWithValue }) 
         const data = await response.json();
         return data;
     } catch (error) {
-        return rejectWithValue(error.message);
+        throw error;
     }
 });
+
+export const updateProfile = createAsyncThunk('updateProfile', async (formData) => {
+    try {
+      const dataToSend = {
+          name: formData.get("name"),
+          email: formData.get("email"),
+          avatar: formData.get("avatar"),
+        };
+    
+        // Send the data as JSON
+        const config = {
+          headers: { "Content-Type": "application/json" },
+        };
+    
+        const url = '/api/v1/me/update';
+        const response = await axios.put(url, JSON.stringify(dataToSend), config);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+  });
 
 // export const clearErrors = () => async() => {
 //     dispatchEvent.clearErrors

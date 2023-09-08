@@ -9,6 +9,10 @@ const store = configureStore({
         updating: updatingSlice,
         users: usersSlice
     },
+    middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;

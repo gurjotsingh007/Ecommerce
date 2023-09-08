@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, register, loadUser, logout } from './usersAction';
+import { login, register, loadUser, logout, updateProfile } from './usersAction';
 
 const usersSlice = createSlice({
   name: 'users',
@@ -8,6 +8,7 @@ const usersSlice = createSlice({
     isAuthenticated: false,
     error: null,
     user: null,
+    isUpdated: false
   },
   reducers: {
     errorOccured:(state, action) => {
@@ -15,6 +16,9 @@ const usersSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
       state.user = null;
+    },
+    updateProfileReset:(state, action) => {
+      state.isUpdated = false;
     }
   },
   extraReducers: (builder) => {
@@ -83,10 +87,21 @@ const usersSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.error = action.payload;
-      });;
+      })
+      .addCase(updateProfile.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isUpdated = action.payload;
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const {errorOccured} = usersSlice.actions;
+export const {errorOccured, updateProfileReset} = usersSlice.actions;
 
 export default usersSlice.reducer;

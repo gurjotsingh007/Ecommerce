@@ -79,7 +79,7 @@ const Login = () => {
       alert("LOGIN");
       navigate('/account')
     }
-  }, [error, isAuthenticated, loading, navigate]);
+  }, [error, isAuthenticated, loading, navigate, dispatch]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {
