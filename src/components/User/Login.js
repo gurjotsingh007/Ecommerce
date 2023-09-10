@@ -13,7 +13,6 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {error,loading, isAuthenticated } = useSelector((state) => state.users);
-  console.log(error,loading, isAuthenticated );
   const loginTab = useRef(null);
   const registerTab = useRef(null);
   const switcherTab = useRef(null);

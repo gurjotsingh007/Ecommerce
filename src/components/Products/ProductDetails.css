@@ -198,6 +198,11 @@
     color: rgba(0, 0, 0, 0.548);
   }
   
+  .quantitySpan{
+    color: rgb(33, 33, 33);
+    padding: 3px 5px;
+  }
+  
   @media screen and (max-width: 600px) {
     .ProductDetails {
       flex-direction: column;

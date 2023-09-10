@@ -153,9 +153,6 @@ export const resetPassword = createAsyncThunk('resetPassword', async (myForm) =>
     };
     
     const response = await fetch(`/api/v1/password/reset/${token}`, config);
-    // if (!response.ok) {
-    //     response = null;
-    // }
 
     const message = await response.json();
     return message.success;

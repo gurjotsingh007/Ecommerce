@@ -8,19 +8,17 @@ import { Rating } from "@material-ui/lab";
 import { getSingleProduct } from "../../utils/Product/productAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { addItemsToCart } from "../../utils/Cart/cartActions";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const { loadingSingle, singleProduct, error } = useSelector(
     (state) => state.products
   );
-
-  console.log(loadingSingle, singleProduct, error);
   const [searchParams] = useSearchParams();
   const product_id = searchParams.get("id");
   useEffect(() => {
     dispatch(getSingleProduct(product_id));
-    console.log(product_id);
   }, [dispatch, product_id]);
 
   const [quantity, setQuantity] = useState(1);
@@ -34,7 +32,7 @@ const ProductDetails = () => {
   };
 
   const increaseQuantity = () => {
-    if (singleProduct?.product?.Stock <= quantity) return;
+    // if (singleProduct?.product?.stock <= quantity) return;
 
     const qty = quantity + 1;
     setQuantity(qty);
@@ -50,6 +48,11 @@ const ProductDetails = () => {
   const submitReviewToggle = () => {
     open ? setOpen(false) : setOpen(true);
   };
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart({product_id, quantity}));
+    alert("Item added to cart");
+  }
 
   return (
     <Fragment>
@@ -89,11 +92,12 @@ const ProductDetails = () => {
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
                     <button onClick={decreaseQuantity}>-</button>
-                    <input readOnly type="number" value={quantity} />
+                    <span className="quantitySpan">{quantity}</span>
                     <button onClick={increaseQuantity}>+</button>
                   </div>
                   <button
-                    disabled={singleProduct?.product?.Stock < 1 ? true : false}
+                    disabled={singleProduct?.product?.stock < 1 ? true : false}
+                    onClick={addToCartHandler}
                   >
                     Add to Cart
                   </button>
@@ -103,12 +107,12 @@ const ProductDetails = () => {
                   Status:
                   <b
                     className={
-                      singleProduct?.product?.Stock < 1
+                      singleProduct?.product?.stock < 1
                         ? "redColor"
                         : "greenColor"
                     }
                   >
-                    {singleProduct?.product?.Stock < 1 ? "OutOfStock" : "InStock"}
+                    {singleProduct?.product?.stock < 1 ? "OutOfStock" : "InStock"}
                   </b>
                 </p>
               </div>

@@ -12,7 +12,6 @@ const ResetPassword = ({ history, match }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {token} = useParams();
-//   console.log("this is token "+ token);
   const { error, success, loading } = useSelector(
     (state) => state.users
   );
