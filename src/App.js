@@ -14,6 +14,9 @@ import { loadUser } from './utils/Users/usersAction';
 import Profile from './components/User/Profile.js'
 import ProtectedRoute from './components/Route/ProtectedRoute';
 import UpdateProfile from './components/User/UpdateProfile.js'
+import UpdatePassword from './components/User/UpdatePassword';
+import ForgotPassword from './components/User/ForgotPassword';
+import ResetPassword from './components/User/ResetPassword';
 
 function App() {
   useEffect(() => {
@@ -46,6 +49,13 @@ function App() {
               <UpdateProfile/>
               </ProtectedRoute>
           }/>
+          <Route path="/password/update" element={
+              <ProtectedRoute>
+              <UpdatePassword/>
+              </ProtectedRoute>
+          }/>
+          <Route path="/password/forgot" element={<ForgotPassword />} />
+          <Route path="/password/reset/:token" element={<ResetPassword />} />
         </Routes>
         <Footer />
       </>

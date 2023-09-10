@@ -1,14 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, register, loadUser, logout, updateProfile } from './usersAction';
+import { login, register, loadUser, logout, updateProfile, updatePassword, forgotPassword, resetPassword } from './usersAction';
 
 const usersSlice = createSlice({
   name: 'users',
   initialState: {
+    user: null,
     loading: false,
     isAuthenticated: false,
     error: null,
-    user: null,
-    isUpdated: false
+    isUpdated: false,
+    message: "",
+    success: false
   },
   reducers: {
     errorOccured:(state, action) => {
@@ -98,6 +100,45 @@ const usersSlice = createSlice({
       .addCase(updateProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(updatePassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updatePassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isUpdated = action.payload;
+      })
+      .addCase(updatePassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.message = "";
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.message = "";
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = action.payload;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
       });
   },
 });

@@ -87,8 +87,8 @@ exports.forgotPassword = catchAsyncErrors(async(req, res, next) => {
     
     //Saving resetToken
     await user.save({validateBeforeSave:false});
-
-    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`;
+    // ${req.protocol}://${req.get("host")}/api/v1
+    const resetPasswordUrl = `http://localhost:3000/password/reset/${resetToken}`;
 
     const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\n If you have not requested this email please ignore it`;
     // console.log(message);
@@ -119,7 +119,7 @@ exports.forgotPassword = catchAsyncErrors(async(req, res, next) => {
 exports.resetPassword = catchAsyncErrors(async(req, res, next) => {
     //Creating token hash
     const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
-
+    
     const user = await User.findOne({
         resetPasswordToken,
         resetPasswordExpire: {$gt: Date.now()}
