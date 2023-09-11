@@ -9,7 +9,6 @@ export const getProducts = createAsyncThunk('getProducts', async (keyword = '', 
     if(category){
       link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${rating}`;
     }
-    console.log(link);
     const response = await fetch(link);
     const result = await response.json();
     return result;

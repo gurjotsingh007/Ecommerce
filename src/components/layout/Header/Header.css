@@ -8,8 +8,10 @@
 .nav-link:Hover{
     color: rgba(255, 61, 61, 0.94);
 }
-.userProfile{
+.userProfile, .cartLogo{
     height: 3rem;
+    background-blend-mode: normal;
+    background-size: contain;
 }
 .speedDial {
   position: fixed;
