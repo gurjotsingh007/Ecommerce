@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { saveShippingInfo } from "./cartActions";
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -27,10 +28,17 @@ const cartSlice = createSlice({
         const itemsLeft = state.cartItems.filter((item) => item.product !== itemToBeDeleted.product);
 
         state.cartItems = itemsLeft;
+    },
+    shippingItem: (state, action) => {
+      const data = action.payload;
+
+      state.shippingInfo = action.payload
+
+      localStorage.setItem("shippingInfo", JSON.stringify(data));
     }
   }
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, shippingItem } = cartSlice.actions;
 
 export default cartSlice.reducer;

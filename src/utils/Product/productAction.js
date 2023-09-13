@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
+import axios from 'axios';
 export const getProducts = createAsyncThunk('getProducts', async (keyword = '', thunkAPI) => {
   try {
     const { getState } = thunkAPI;
@@ -25,7 +25,67 @@ export const getSingleProduct = createAsyncThunk("getSingleProduct", async (id, 
       return rejectWithValue(error.message);
     }
   });
+
+  export const newReview = createAsyncThunk("newReview", async (reviewData, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers:{"Content-Type" : "application/json"}
+      };
+      const {response} = await axios.put(`/api/v1/review`, reviewData, config);
+      return response.success;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  });
+
+  export const getAdminProducts = createAsyncThunk('getAdminProducts', async () => {
+    try {
+      const response = await fetch('/api/v1/admin/products');
+      const result = await response.json();
+      return result.products;
+    } catch (error) {
+      return error.message;
+    }
+  });
+
+  export const createProduct = createAsyncThunk("createProduct", async (productData, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers:{"Content-Type" : "application/json"}
+      };
+      const {response} = await axios.post(`/api/v1/admin/product/new`, productData, config);
+      return response.success;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.message);
+    }
+  });
   
+  export const deleteProduct = createAsyncThunk("deleteProduct", async (id, { rejectWithValue }) => {
+    try {
+      const {response} = await axios.delete(`/api/v1/admin/product/${id}`);
+      return response.success;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.message);
+    }
+  });
+
+  export const updateProduct = createAsyncThunk("updateProduct", async (data, { rejectWithValue }) => {
+    const id = data.productId;
+    const productData = data.myForm;
+    console.log(productData.get("name"));
+    try {
+      const config = {
+        headers:{"Content-Type" : "application/json"}
+      };
+      const {response} = await axios.put(`/api/v1/admin/product/${id}`, productData, config);
+      return response.success;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.message);
+    }
+  });
 
 // allProductRequest: (state) => {
 //   state.loading = true;

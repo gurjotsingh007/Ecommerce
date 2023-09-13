@@ -4,6 +4,7 @@ import updatingSlice from './UpdatingValues/updatingSlice';
 import usersSlice from './Users/usersSlice';
 import cartSlice from './Cart/cartSlice';
 import { loadStateFromLocalStorage } from "./Cart/cartActions";
+import OrderSlice from './Order/OrderSlice';
 
 const preloadedState = {
   cart: {
@@ -18,6 +19,7 @@ const store = configureStore({
     updating: updatingSlice,
     users: usersSlice,
     cart: cartSlice,
+    orders: OrderSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

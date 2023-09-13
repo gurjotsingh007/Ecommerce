@@ -44,4 +44,4 @@ export const loadStateFromLocalStorage = (key) => {
     const updateCartItems = getState().cart.cartItems;
 
     localStorage.setItem("cartItems", JSON.stringify(updateCartItems));
-  })
+  });

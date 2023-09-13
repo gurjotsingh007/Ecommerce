@@ -5,24 +5,33 @@ import ReviewCard from "./ReviewCard.js";
 import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData";
 import { Rating } from "@material-ui/lab";
-import { getSingleProduct } from "../../utils/Product/productAction";
+import { getSingleProduct, newReview } from "../../utils/Product/productAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { addItemsToCart } from "../../utils/Cart/cartActions";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+} from "@material-ui/core";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
-  const { loadingSingle, singleProduct, error } = useSelector(
+  const { loadingSingle, singleProduct, error, reviewError, review } = useSelector(
     (state) => state.products
   );
   const [searchParams] = useSearchParams();
   const product_id = searchParams.get("id");
   useEffect(() => {
     dispatch(getSingleProduct(product_id));
-  }, [dispatch, product_id]);
+  }, [dispatch, product_id, reviewError, review]);
 
   const [quantity, setQuantity] = useState(1);
   const [open, setOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   const options = {
     size: "large",
@@ -32,7 +41,7 @@ const ProductDetails = () => {
   };
 
   const increaseQuantity = () => {
-    // if (singleProduct?.product?.stock <= quantity) return;
+    if (singleProduct?.product?.stock <= quantity) return;
 
     const qty = quantity + 1;
     setQuantity(qty);
@@ -48,6 +57,21 @@ const ProductDetails = () => {
   const submitReviewToggle = () => {
     open ? setOpen(false) : setOpen(true);
   };
+
+  const reviewSubmitHandler = () => {
+    const myForm = new FormData();
+    myForm.set("rating", rating);
+    myForm.set("comment", comment);
+    myForm.set("productId", product_id);
+
+    dispatch(newReview(myForm));
+
+    setOpen(false);
+  }
+
+  if(reviewError && !review){
+    alert(reviewError);
+  }
 
   const addToCartHandler = () => {
     dispatch(addItemsToCart({product_id, quantity}));
@@ -84,7 +108,7 @@ const ProductDetails = () => {
               <div className="detailsBlock-2">
                 <Rating {...options} />
                 <span className="detailsBlock-2-span">
-                  ({singleProduct?.product?.numOfReviews} Reviews)
+                  ({singleProduct?.product?.numberOfReviews} Reviews)
                 </span>
               </div>
               <div className="detailsBlock-3">
@@ -128,6 +152,37 @@ const ProductDetails = () => {
           </div>
 
           <h3 className="reviewsHeading">REVIEWS</h3>
+
+          <Dialog
+            aria-labelledby="simple-dialog-title"
+            open={open}
+            onClose={submitReviewToggle}
+          >
+            <DialogTitle>Submit Review</DialogTitle>
+            <DialogContent className="submitDialog">
+              <Rating
+                onChange={(e) => setRating(e.target.value)}
+                value={rating}
+                size="large"
+              />
+
+              <textarea
+                className="submitDialogTextArea"
+                cols="30"
+                rows="5"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              ></textarea>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={submitReviewToggle} color="secondary">
+                Cancel
+              </Button>
+              <Button onClick={reviewSubmitHandler} color="primary">
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
 
           {singleProduct?.product?.reviews && singleProduct?.product?.reviews[0] ? (
             <div className="reviews">
