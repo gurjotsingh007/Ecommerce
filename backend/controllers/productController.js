@@ -114,7 +114,7 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   //     await cloudinary.v2.uploader.destroy(product.images[i].public_id);
   //   }
   // }
-  req.body.images = imagesLinks;
+  req.body.images = imagesLinks; 
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,

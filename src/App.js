@@ -31,6 +31,9 @@ import Dashboard from './components/Admin/Dashboard';
 import ProductList from './components/Admin/ProductList.js';
 import NewProduct from './components/Admin/NewProduct';
 import UpdateProduct from './components/Admin/UpdateProduct';
+import OrderList from './components/Admin/OrderList';
+import ProcessOrder from './components/Admin/ProcessOrder';
+import UsersList from './components/Admin/UsersList';
 
 function App() {
   const [stripeApiKeys, setStripeApiKey] = useState("");
@@ -131,6 +134,21 @@ function App() {
           <Route path="/admin/product/:id" element={
               <ProtectedRoute>
               <UpdateProduct/>
+              </ProtectedRoute>
+          }/>
+          <Route path="/admin/orders" element={
+              <ProtectedRoute>
+              <OrderList/>
+              </ProtectedRoute>
+          }/>
+          <Route path="/admin/order/:id" element={
+              <ProtectedRoute>
+              <ProcessOrder/>
+              </ProtectedRoute>
+          }/>
+          <Route path="/admin/users" element={
+              <ProtectedRoute>
+              <UsersList/>
               </ProtectedRoute>
           }/>
         </Routes>

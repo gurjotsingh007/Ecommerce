@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllOrders, getOrderDetails } from "./OrderAction";
+import { deleteOrder, getAllAdminOrders, getAllOrders, getOrderDetails, updateOrder } from "./OrderAction";
 
 const orderSlice = createSlice({
     name:"orders",
@@ -7,6 +7,8 @@ const orderSlice = createSlice({
         order:[],
         orders:[],
         orderDetail:[],
+        isUpdated:false,
+        isDeleted:false,
         loading:false
     },
     reducers:{
@@ -36,6 +38,41 @@ const orderSlice = createSlice({
             state.orderDetail = action.payload;
         })
         .addCase(getOrderDetails.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase(getAllAdminOrders.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(getAllAdminOrders.fulfilled, (state, action) => {
+            state.loading = false;
+            state.orderDetail = action.payload;
+        })
+        .addCase(getAllAdminOrders.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase(updateOrder.pending, (state) => {
+            state.loading = true;
+            state.isUpdated = false;
+        })
+        .addCase(updateOrder.fulfilled, (state, action) => {
+            state.loading = false;
+            state.isUpdated = action.payload;
+        })
+        .addCase(updateOrder.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase(deleteOrder.pending, (state) => {
+            state.loading = true;
+            state.isDeleted = false;
+        })
+        .addCase(deleteOrder.fulfilled, (state, action) => {
+            state.loading = false;
+            state.isDeleted = action.payload;
+        })
+        .addCase(deleteOrder.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         })
