@@ -16,6 +16,8 @@ import {
   DialogTitle,
   Button,
 } from "@material-ui/core";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Users/usersSlice";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
@@ -70,12 +72,13 @@ const ProductDetails = () => {
   }
 
   if(reviewError && !review){
-    alert(reviewError);
+    toast.error(reviewError);
+    dispatch(resetAllState());
   }
 
   const addToCartHandler = () => {
     dispatch(addItemsToCart({product_id, quantity}));
-    alert("Item added to cart");
+    toast.success("Item added to cart");
   }
 
   return (

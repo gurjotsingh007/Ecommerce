@@ -4,6 +4,8 @@ import Header from './components/layout/Header/Header.js';
 import WebFont from 'webfontloader';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home/Home.js';
+import Contact from './components/layout/Contect/Contact';
+import About from './components/layout/About/About';
 import Footer from './components/layout/Footer/Footer.js';
 import ProductDetails from './components/Products/ProductDetails';
 import Products from './components/Products/Products';
@@ -34,6 +36,10 @@ import UpdateProduct from './components/Admin/UpdateProduct';
 import OrderList from './components/Admin/OrderList';
 import ProcessOrder from './components/Admin/ProcessOrder';
 import UsersList from './components/Admin/UsersList';
+import UpdateUser from './components/Admin/UpdateUser';
+import ProductReviews from './components/Admin/ProductReviews';
+import {ToastContainer} from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [stripeApiKeys, setStripeApiKey] = useState("");
@@ -58,11 +64,26 @@ function App() {
     <Router>
       <>
         <Header />
+        <ToastContainer autoClose={1500}/>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/product" element={<ProductDetails />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:keyword" element={<Products />} />
+          <Route path="/contact" element={<Contact/>} />
+          <Route path="/about" element={<About />} />
+          <Route path="/product" element={
+              <ProtectedRoute>
+              <ProductDetails/>
+              </ProtectedRoute>
+          }/>
+          <Route path="/products" element={
+              <ProtectedRoute>
+              <Products/>
+              </ProtectedRoute>
+          }/>
+          <Route path="/products/:keyword" element={
+              <ProtectedRoute>
+              <Products/>
+              </ProtectedRoute>
+          }/>
           <Route path="/search" element={<Search />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={
@@ -70,7 +91,7 @@ function App() {
               <Profile/>
               </ProtectedRoute>
           }/>
-          <Route path="/me/update" element={
+          <Route path="/me/update" element={ 
               <ProtectedRoute>
               <UpdateProfile/>
               </ProtectedRoute>
@@ -82,7 +103,11 @@ function App() {
           }/>
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={
+              <ProtectedRoute>
+              <Cart/>
+              </ProtectedRoute>
+          }/>
           <Route path="/login/shipping" element={
               <ProtectedRoute>
               <Shipping/>
@@ -149,6 +174,16 @@ function App() {
           <Route path="/admin/users" element={
               <ProtectedRoute>
               <UsersList/>
+              </ProtectedRoute>
+          }/>
+          <Route path="/admin/user/:id" element={
+              <ProtectedRoute>
+              <UpdateUser/>
+              </ProtectedRoute>
+          }/>
+          <Route path="/admin/reviews" element={
+              <ProtectedRoute>
+              <ProductReviews/>
               </ProtectedRoute>
           }/>
         </Routes>

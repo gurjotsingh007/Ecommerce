@@ -12,6 +12,8 @@ import Loader from "../layout/Loader/Loader";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import { Button } from "@material-ui/core";
 import "./ProcessOrder.css";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Product/productSlice";
 
 const ProcessOrder = () => {
   const { isUpdated, error, loading, orderDetail} = useSelector((state) => state.orders);
@@ -31,10 +33,11 @@ const ProcessOrder = () => {
   const [status, setStatus] = useState("");
   useEffect(() => {
     if (error) {
-      alert(error);
+      toast.error(error);
+      dispatch(resetAllState());
     }
     if (isUpdated) {
-      alert("Order Updated Successfully");
+      toast.success("Order Updated Successfully");
     }
 
     dispatch(getOrderDetails(id));

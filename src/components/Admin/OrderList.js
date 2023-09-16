@@ -13,6 +13,8 @@ import {
   getAllAdminOrders,
   
 } from "../../utils/Order/OrderAction";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Product/productSlice";
 
 const OrderList = ({ history }) => {
   const dispatch = useDispatch();
@@ -26,15 +28,12 @@ const OrderList = ({ history }) => {
 
   useEffect(() => {
     if (error) {
-      alert(error);
-    }
-
-    if (error) {
-      alert(error);
+      toast.error(error);
+      dispatch(resetAllState());
     }
 
     if (isDeleted) {
-      alert("Order Deleted Successfully");
+      toast.success("Order Deleted Successfully");
       navigate("/admin/orders");
     }
 

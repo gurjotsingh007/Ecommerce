@@ -11,6 +11,8 @@ import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Product/productSlice";
 
 const NewProduct = () => {
   const dispatch = useDispatch();
@@ -37,11 +39,12 @@ const NewProduct = () => {
 
   useEffect(() => {
     if (error) {
-        alert("Product Created Successfully");
+        toast.error("Product Created Successfully");
+        dispatch(resetAllState());
     }
 
     if (newProductAdmin) {
-      alert("Product Created Successfully");
+      toast.success("Product Created Successfully");
       navigate("/admin/dashboard");
     }
   }, [dispatch, error, navigate, newProductAdmin]);

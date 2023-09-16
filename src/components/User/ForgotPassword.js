@@ -5,6 +5,8 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword } from "../../utils/Users/usersAction";
 import MetaData from "../layout/MetaData";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Users/usersSlice";
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
@@ -26,11 +28,12 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (error) {
-      alert("Error Forgot Password");
+      toast.error("Error Forgot Password");
+      dispatch(resetAllState());
     }
 
     if (displayMessage) {
-      alert(displayMessage);
+      toast.success(displayMessage);
     }
   }, [dispatch, error, displayMessage]);
 

@@ -255,12 +255,6 @@ exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
     useFindAndModify: false,
   });
 
-  if (!user) {
-    return next(
-      new ErrorHandler(`User does not exists with id: ${req.params.id}`)
-    );
-  }
-
   res.status(200).json({
     success: true,
   });

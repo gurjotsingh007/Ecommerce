@@ -11,13 +11,14 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { populateOrder } from "../../utils/Order/OrderSlice";
+import { populateOrder, resetAllState } from "../../utils/Order/OrderSlice";
 import axios from "axios";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import EventIcon from "@material-ui/icons/Event";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { createOrder } from "../../utils/Order/OrderAction";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const Payment = () => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
@@ -71,18 +72,15 @@ const Payment = () => {
       payBtn.current.disabled = false;
       navigate("/success");
     } catch (error) {
-      alert("Error creating order: " + error.response.data.message);
+      toast.success("Error creating order: " + error.response.data.message);
       payBtn.current.disabled = false;
     }
   };
   
-      
-
-  
-
   useEffect(() => {
     if (error) {
-      alert(error);
+      toast.error(error);
+      dispatch(resetAllState());
     }
     // getStriptApiKey();
   }, [error, dispatch]);

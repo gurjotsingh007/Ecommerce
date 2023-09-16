@@ -12,6 +12,8 @@ import MetaData from "../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Product/productSlice";
 
 const ProductList = ({ history }) => {
   const dispatch = useDispatch();
@@ -25,11 +27,12 @@ const ProductList = ({ history }) => {
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      toast.error(error);
+      dispatch(resetAllState());
     }
 
     if (newProductAdmin) {
-      alert("Product Deleted Successfully");
+      toast.success("Product Deleted Successfully");
       navigate("/admin/dashboard");
     }
 

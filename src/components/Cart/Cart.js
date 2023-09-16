@@ -6,6 +6,7 @@ import { addItemsToCart, removeItemsFromCart } from "../../utils/Cart/cartAction
 import { Typography } from "@material-ui/core";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,6 @@ const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
 
   const increaseQuantity = (id, quantity, stock) => {
-    console.log(id, quantity, stock);
     const newQty = quantity + 1;
     if (stock <= quantity) {
       return;
@@ -31,7 +31,7 @@ const Cart = () => {
 
   const deleteCartItems = (id) => {
     dispatch(removeItemsFromCart(id));
-    alert("Item Removed");
+    toast.success("Item Removed");
   };
 
   const checkoutHandler = () => {

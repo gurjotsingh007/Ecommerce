@@ -5,13 +5,19 @@
     font-size: 1.2rem;
     margin: 0 0.5rem;
 }
+.nav-item{
+  padding-bottom: 5px;
+}
 .nav-link:Hover{
     color: rgba(255, 61, 61, 0.94);
 }
-.userProfile, .cartLogo{
-    height: 3rem;
-    background-blend-mode: normal;
-    background-size: contain;
+.userProfile{
+    height: 3.4rem;
+    mix-blend-mode: color-burn;
+}
+.cartLogo{
+  height: 2.3rem;
+  mix-blend-mode: color-burn;
 }
 .speedDial {
   position: fixed;

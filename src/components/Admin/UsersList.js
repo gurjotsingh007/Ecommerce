@@ -9,6 +9,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
 import { getAllUsers, deleteUser } from "../../utils/Users/usersAction";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Users/usersSlice";
 
 const UsersList = () => {
   const dispatch = useDispatch();
@@ -22,11 +24,12 @@ const UsersList = () => {
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      toast.error(error);
+      dispatch(resetAllState());
     }
 
     if (success) {
-      alert(message);
+      toast.success(message);
       navigate("/admin/users");
     }
 

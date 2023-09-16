@@ -10,6 +10,8 @@ import ProductCard from "../Home/ProductCard";
 import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData"
 import { changePrice, changeCurrPage, setProductCategory, setProductRating } from '../../utils/UpdatingValues/updatingSlice';
+import { toast } from 'react-toastify';
+import { resetAllState } from '../../utils/Users/usersSlice';
 
 const categories = [
   "Laptop",
@@ -28,7 +30,7 @@ const Products = () => {
   const [price, setPrice] = useState([0, 25000]);
   const [category, setCategory] = useState("");
   const [ratings, setRatings] = useState(0);
-
+  const [prev, setPrev] = useState([0, 25000]);
 
   const {products, loading, error} = useSelector(state => state.products);
   const {productCount, resultPerPage, filteredProductsCount} = products;
@@ -51,13 +53,17 @@ const Products = () => {
 
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
-    dispatch(changePrice(newPrice));
+    if(newPrice[0] !== prev[0] && newPrice[1] !== prev[1]){
+      setPrev(newPrice);
+      dispatch(changePrice(newPrice));
+    }
   };
 
   let count = filteredProductsCount;
   useEffect(()=>{
     if(error){
-      alert("Error Occured");
+      toast.error("Error Occured");
+      dispatch(resetAllState());
     }
     dispatch(getProducts(keyword));
   }, [dispatch, keyword, price, currentPage, category, ratings])

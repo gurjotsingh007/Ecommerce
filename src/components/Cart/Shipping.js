@@ -13,6 +13,7 @@ import { Country, State } from "country-state-city";
 import CheckoutSteps from "./CheckoutSteps.js";
 import {useNavigate} from "react-router-dom"
 import { shippingItem } from "../../utils/Cart/cartSlice";
+import { toast } from 'react-toastify';
 
 const Shipping = () => {
   const dispatch = useDispatch();
@@ -27,11 +28,10 @@ const Shipping = () => {
   const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
 
   const shippingSubmit = (e) => {
-    console.log("1");
     e.preventDefault();
 
     if (phoneNo.length < 10 || phoneNo.length > 10) {
-      alert("Phone Number should be 10 digits Long");
+      toast.warning("Phone Number should be 10 digits Long");
       return;
     }
     console.log("2");

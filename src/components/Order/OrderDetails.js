@@ -6,6 +6,8 @@ import { Link, useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import { getOrderDetails } from "../../utils/Order/OrderAction";
 import Loader from "../layout/Loader/Loader";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Users/usersSlice";
 
 const OrderDetails = () => {
   const { orderDetail, error, loading } = useSelector((state) => state.orders);
@@ -14,7 +16,8 @@ const OrderDetails = () => {
   const {id} = useParams();
   useEffect(() => {
     if (error) {
-      alert(error);
+      toast.error(error);
+      dispatch(resetAllState());
     }
     dispatch(getOrderDetails(id));
   }, [dispatch, error, id]);

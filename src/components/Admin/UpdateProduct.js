@@ -13,6 +13,8 @@ import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "./Sidebar";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Product/productSlice";
 
 const UpdateProduct = () => {
   const dispatch = useDispatch();
@@ -53,11 +55,12 @@ const UpdateProduct = () => {
       setOldImages(product?.images);
     }
     if (error) {
-      alert(error);
+      toast.error(error);
+      dispatch(resetAllState());
     }
 
     if (newProductAdmin) {
-      alert("Product Updated Successfully");
+      toast.success("Product Updated Successfully");
       navigate("/admin/products");
     }
   }, [

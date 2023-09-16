@@ -5,20 +5,19 @@ import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { Doughnut, Line } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
-// import { getAdminProduct } from "../../actions/productAction";
-// import { getAllOrders } from "../../actions/orderAction.js";
-// import { getAllUsers } from "../../actions/userAction.js";
 import MetaData from "../layout/MetaData";
+import { getAllUsers } from "../../utils/Users/usersAction.js";
+import { getAllAdminOrders } from "../../utils/Order/OrderAction.js";
+import { getAdminProducts } from "../../utils/Product/productAction.js";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   
   const { adminProducts } = useSelector((state) => state.products);
 
-  const { orders } = useSelector((state) => state.orders);
+  const { orderDetail } = useSelector((state) => state.orders);
 
-//   const { users } = useSelector((state) => state.allUsers);
-    let users = 5;
+  const { allUsersData } = useSelector((state) => state.users);
   let outOfStock = 0;
 
   adminProducts &&
@@ -29,14 +28,14 @@ const Dashboard = () => {
     });
 
   useEffect(() => {
-    // dispatch(getAdminProduct());
-    // dispatch(getAllOrders());
-    // dispatch(getAllUsers());
+    dispatch(getAdminProducts());
+    dispatch(getAllAdminOrders());
+    dispatch(getAllUsers());
   }, [dispatch]);
 
   let totalAmount = 0;
-  orders &&
-    orders.forEach((item) => {
+  orderDetail &&
+  orderDetail.forEach((item) => {
       totalAmount += Number(item.totalPrice);
     });
 
@@ -84,12 +83,11 @@ const Dashboard = () => {
             </Link>
             <Link to="/admin/orders">
               <p>Orders</p>
-              <p>{orders && orders.length}</p>
+              <p>{orderDetail && orderDetail.length}</p>
             </Link>
             <Link to="/admin/users">
               <p>Users</p>
-              <p>{users}</p>
-              {/* <p>{users && users.length}</p> */}
+              <p>{allUsersData && allUsersData.length}</p>
             </Link>
           </div>
         </div>

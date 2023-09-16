@@ -10,9 +10,9 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../utils/Users/usersAction";
+import { toast } from 'react-toastify';
 
 const UserOptions = ({ user }) => {
-    // let cartItems = 5;
   const { cartItems } = useSelector((state) => state.cart);
 
   const [open, setOpen] = useState(false);
@@ -57,7 +57,7 @@ const UserOptions = ({ user }) => {
   }
   function logoutUser() {
     dispatch(logout());
-    alert("Logout Successfully");
+    toast.success("Logout Successfully");
   }
 
   return (

@@ -7,6 +7,8 @@ import MetaData from "../layout/MetaData";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockIcon from "@material-ui/icons/Lock";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { resetAllState } from "../../utils/Users/usersSlice";
 
 const ResetPassword = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -33,12 +35,13 @@ const ResetPassword = ({ history, match }) => {
 
   useEffect(() => {
     if (error) {
-      alert("error");
+      toast.error("error");
+      dispatch(resetAllState());
     }
 
     if (success) {
-      alert("Password Updated Successfully");
-
+      toast.success("Password Updated Successfully");
+      dispatch(resetAllState());
       navigate("/login");
     }
   }, [dispatch, error, navigate, success]);

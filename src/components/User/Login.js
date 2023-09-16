@@ -8,7 +8,9 @@ import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
 import { login , register} from '../../utils/Users/usersAction';
 import logo from '../../images/Profile.png'
-import axios from 'axios';
+import { toast } from 'react-toastify';
+import { resetAllState } from '../../utils/Users/usersSlice';
+
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -72,12 +74,14 @@ const Login = () => {
   console.log(redirect);
   useEffect(() => {
     if (error) {
-      alert(error);
+      toast.error(error);
+      dispatch(resetAllState());
     }
 
     if (isAuthenticated) {
       console.log("LOGIN");
       navigate(redirect);
+      toast.success("Logged in Successfully")
     }
   }, [error, isAuthenticated, loading, navigate, dispatch, redirect]);
 
